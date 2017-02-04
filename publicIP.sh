@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0,30 * * * * /home/pi/script/publicIP.sh 2>&1 /home/pi/script/checkPublicIp.log
+# 0,30 * * * * /home/pi/script/publicIP.sh > /home/pi/script/checkPublicIp.log 2>&1
 DIRECTORY='/home/pi/script'
 OUTPUT_FILE="$DIRECTORY/whats_my_ip.txt"
 CURRENT_IP_FILE="$DIRECTORY/current_ip_address.txt"
