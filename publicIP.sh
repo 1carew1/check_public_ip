@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# */15 * * * * /home/pi/script/publicIP.sh > /home/pi/script/checkPublicIp.log 2>&1
-DIRECTORY='/home/pi/script'
+# */15 * * * * /home/colm/scripts/check_public_ip/publicIP.sh > /home/colm/scripts/check_public_ip/checkPublicIp.log 2>&1
+DIRECTORY='/home/colm/scripts/check_public_ip'
 OUTPUT_FILE="$DIRECTORY/whats_my_ip.txt"
 CURRENT_IP_FILE="$DIRECTORY/current_ip_address.txt"
 EMAIL_RECEIPIENT='colmcarew2@gmail.com'
@@ -10,11 +10,20 @@ CURRENT_IP=$(cat $CURRENT_IP_FILE)
 IP_ADDRESS=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 DATE=$(date)
 
+
+if [ ! -f $OUTPUT_FILE ]; then
+    touch $OUTPUT_FILE
+fi
+
+if [ ! -f $CURRENT_IP_FILE ]; then
+    touch $CURRENT_IP_FILE
+fi
+
 echo "`date` - Adding Public IP to $OUTPUT_FILE"
 echo "$DATE - $IP_ADDRESS" >> $OUTPUT_FILE
   if [ "$CURRENT_IP" != "$IP_ADDRESS" ] && [ "" !=  "$IP_ADDRESS" ] ; then
        echo "`date` - IP address has changed from $CURRENT_IP to $IP_ADDRESS"
-       echo "IP Address has changed to : $IP_ADDRESS" | mail -s "Your public home ip is now : $IP_ADDRESS" - $EMAIL_RECEIPIENT
+       echo "IP Address has changed to : $IP_ADDRESS" | mail -s "Your public home ip is now : $IP_ADDRESS" $EMAIL_RECEIPIENT
        echo $IP_ADDRESS > $CURRENT_IP_FILE
   else
             echo "`date` - IP address has not changed"
