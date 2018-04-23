@@ -5,16 +5,19 @@ DIRECTORY='/home/colm/scripts/check_public_ip'
 OUTPUT_FILE="$DIRECTORY/whats_my_ip.txt"
 CURRENT_IP_FILE="$DIRECTORY/current_ip_address.txt"
 EMAIL_RECEIPIENT='colmcarew2@gmail.com'
-CURRENT_IP=$(cat $CURRENT_IP_FILE)
 
+# Create Needed Files if not present
 if [ ! -f $OUTPUT_FILE ]; then
+	echo "Created : $OUTPUT_FILE"
     touch $OUTPUT_FILE
 fi
 
 if [ ! -f $CURRENT_IP_FILE ]; then
+	echo "Created : $CURRENT_IP_FILE"
     touch $CURRENT_IP_FILE
 fi
 
+CURRENT_IP=$(cat $CURRENT_IP_FILE)
 #IP_ADDRESS=$(wget http://ipecho.net/plain -O - -q ; echo)
 IP_ADDRESS=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
 DATE=$(date)
