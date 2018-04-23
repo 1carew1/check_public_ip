@@ -6,10 +6,6 @@ OUTPUT_FILE="$DIRECTORY/whats_my_ip.txt"
 CURRENT_IP_FILE="$DIRECTORY/current_ip_address.txt"
 EMAIL_RECEIPIENT='colmcarew2@gmail.com'
 CURRENT_IP=$(cat $CURRENT_IP_FILE)
-#IP_ADDRESS=$(wget http://ipecho.net/plain -O - -q ; echo)
-IP_ADDRESS=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
-DATE=$(date)
-
 
 if [ ! -f $OUTPUT_FILE ]; then
     touch $OUTPUT_FILE
@@ -18,6 +14,10 @@ fi
 if [ ! -f $CURRENT_IP_FILE ]; then
     touch $CURRENT_IP_FILE
 fi
+
+#IP_ADDRESS=$(wget http://ipecho.net/plain -O - -q ; echo)
+IP_ADDRESS=$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}')
+DATE=$(date)
 
 echo "`date` - Adding Public IP to $OUTPUT_FILE"
 echo "$DATE - $IP_ADDRESS" >> $OUTPUT_FILE
